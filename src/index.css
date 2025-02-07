@@ -1,0 +1,398 @@
+:root {
+  --primary: #3b82f6;
+  --background: #f9fafb;
+  --header-text: #111827;
+  --body-text: #374151;
+  --highlight: #ff9381;
+  --borders: #d1d5db;
+  --sidebar-bg: #e5e7eb;
+  --note-bg: #ffffff;
+  --cancel-note-text: #000000;
+  --buttons-border: hsla(0, 0%, 0%, 0.2);
+  --buttons-border-hover: hsla(0, 0%, 0%, 0.6);
+  --buttons-border-active: hsla(0, 0%, 0%, 0.4);
+  --input-text: #000000;
+}
+
+body.dark-theme {
+  --primary: #ffffff;
+  --background: #1e293b;
+  --header-text: #ffffff;
+  --body-text: #e2e8f0;
+  --highlight: #ff9381;
+  --borders: #4b5563;
+  --sidebar-bg: #273548;
+  --note-bg: #000000;
+  --cancel-note-text: #ffffff;
+  --buttons-border: hsla(0, 0%, 100%, 0.2);
+  --buttons-border-hover: hsla(0, 0%, 100%, 0.6);
+  --buttons-border-active: hsla(0, 0%, 100%, 0.4);
+  --input-text: #ffffff;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+  line-height: 1.5;
+  background-color: var(--background);
+  color: var(--body-text);
+}
+
+textarea,
+input,
+button {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 15px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 0px 2px var(--buttons-border), 0 2px 4px var(--buttons-border);
+  background-color: var(--background);
+  line-height: 1.5;
+  color: var(--input-text);
+}
+
+h1 {
+  color: var(--header-text);
+}
+
+button {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+textarea:hover,
+input:hover,
+button:hover {
+  box-shadow: 0 0px 2px var(--buttons-border-hover),
+    0 1px 4px var(--buttons-border);
+}
+
+button:active {
+  box-shadow: 0 0px 2px var(--buttons-border-active);
+  transform: translateY(2px);
+}
+
+.buttons-block {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  border-bottom: 1px solid var(--borders);
+}
+
+.buttons-block button {
+  width: 5rem;
+}
+
+form[action$="delete"] button {
+  color: #f44250;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+#root .header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: max-content;
+  width: 100%;
+  padding-left: 5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borders);
+}
+
+#root .header h1 {
+  display: inline-block;
+  min-width: max-content;
+  max-width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#root .header h1::before {
+  content: "";
+  position: relative;
+  display: inline-block;
+  top: 1px;
+  width: 25px;
+  height: 25px;
+  background-image: url("/notes-notepad-svgrepo-com.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 0.5rem;
+}
+
+#root .header > div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 5rem;
+}
+
+#root .header + div {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+#sidebar {
+  width: 25rem;
+  background-color: var(--sidebar-bg);
+  border-right: solid 1px var(--borders);
+  display: flex;
+  flex-direction: column;
+}
+/* Все дочерние элементы sidebar */
+#sidebar > * {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+#sidebar > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borders);
+}
+
+#sidebar > div form {
+  position: relative;
+}
+
+#sidebar > div form input[type="search"] {
+  width: 100%;
+  padding-left: 2rem;
+  background-image: url("../public/icons8-search.svg");
+  background-repeat: no-repeat;
+  background-position: 0.625rem 1.05rem;
+  background-size: 1rem;
+  position: relative;
+}
+
+#sidebar > div form input[type="search"].loading {
+  background-image: none;
+}
+
+#search-spinner {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  background-image: url("../public/spinner-bold-svgrepo-com.svg");
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  left: 0.625rem;
+  top: 1.05rem;
+  animation: spin 3s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#sidebar nav {
+  flex: 1;
+  overflow: auto;
+  padding-top: 1rem;
+}
+
+i {
+  color: #757575;
+}
+
+#sidebar nav .active i {
+  color: inherit;
+}
+
+#sidebar ul {
+  list-style: none;
+}
+
+#sidebar li {
+  margin: 0.3rem 0;
+}
+
+#sidebar nav a {
+  display: block;
+  overflow: hidden;
+
+  padding: 0.5rem;
+  border-radius: 15px;
+  color: inherit;
+  text-decoration: none;
+}
+
+#sidebar nav a span {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  max-width: 100%;
+}
+
+#sidebar nav a:hover {
+  background-color: var(--borders);
+}
+
+#sidebar nav a.active {
+  background-color: var(--highlight);
+  color: white;
+}
+
+#sidebar nav a.pending {
+  color: var(--highlight);
+}
+
+#detail {
+  flex: 1;
+  width: calc(100% - 25rem);
+  padding: 1rem 3rem;
+  background-color: var(--note-bg);
+}
+
+#loading-spinner {
+  width: 256px;
+  height: 256px;
+  background-image: url("../public/spinner-bold-svgrepo-com-256px.svg");
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: spin 3s infinite linear 300ms;
+}
+
+#note {
+  max-width: 45rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-div {
+  padding-top: 0.5rem;
+}
+
+#note h1 {
+  padding-bottom: 0.5rem;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--borders);
+}
+
+#note h1 ~ p {
+  padding-top: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+#cancel {
+  color: var(--cancel-note-text);
+}
+
+#note-form {
+  max-width: 45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+#note-form > div {
+  display: flex;
+  flex-direction: row;
+}
+
+#note-form > div label {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+#note-form > div span {
+  width: 6rem;
+}
+
+#note-form input,
+#note-form textarea {
+  flex-grow: 2;
+}
+
+#index {
+  max-width: 45rem;
+}
+
+#index > div {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#index a {
+  color: inherit;
+}
+
+#index a:hover {
+  color: var(--highlight);
+}
+
+#error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--highlight);
+}
+
+#footer {
+  background-color: var(--note-bg);
+  padding-left: 3rem;
+}
+
+#footer > div {
+  width: fit-content;
+  height: 25px;
+}
+
+#footer a {
+  color: inherit;
+}
+
+#footer a:hover {
+  color: var(--highlight);
+}
