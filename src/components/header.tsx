@@ -1,13 +1,9 @@
-import { useContext, useEffect, ReactNode, FC } from "react";
-import { ThemeContext } from "../context/theme-context";
+import { useEffect, ReactNode, FC } from "react";
 import { NavLink } from "react-router-dom";
+import { useThemeContext } from "../hooks/use-theme-context";
 
 const Header: FC<{ children: ReactNode }> = ({ children }) => {
-  const themeContext = useContext(ThemeContext);
-
-  if (!themeContext) {
-    throw new Error("ThemeContext must be used within a ThemeProvider");
-  }
+  const themeContext = useThemeContext();
 
   const { theme, toggleTheme } = themeContext;
 
